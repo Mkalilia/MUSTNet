@@ -6,16 +6,17 @@ import numpy as np
 
 import torch
 from torch.utils.data import DataLoader
-from networks.layers import disp_to_depth
-from utils.utils import readlines
-from config.options import MonodepthOptions
-import core.datasets as datasets
-import networks.muse_net as networks
+import torch.nn.functional as F
+from layers import disp_to_depth
+from utils import readlines
+from options import MonodepthOptions
+import datasets
+import networks
 
 cv2.setNumThreads(0)  # This speeds up evaluation 5x on our unix systems (OpenCV 3.3.1)
 
 
-splits_dir = os.path.join(os.path.dirname(__file__), "utils/splits")
+splits_dir = os.path.join(os.path.dirname(__file__), "splits")
 
 # Models which were trained with stereo supervision were trained with a nominal
 # baseline of 0.1 units. The KITTI rig has a baseline of 54cm. Therefore,
@@ -54,11 +55,12 @@ def batch_post_process_disparity(l_disp, r_disp):
     r_mask = l_mask[:, :, ::-1]
     return r_mask * l_disp + l_mask * r_disp + (1.0 - l_mask - r_mask) * m_disp
 
+
 def evaluate(opt):
     """Evaluates a pretrained model using a specified test set
     """
     MIN_DEPTH = 1e-3
-    MAX_DEPTH = 50
+    MAX_DEPTH = 80
 
     assert sum((opt.eval_mono, opt.eval_stereo)) == 1, \
         "Please choose mono or stereo evaluation by setting either --eval_mono or --eval_stereo"
@@ -73,14 +75,16 @@ def evaluate(opt):
         print("-> Loading weights from {}".format(opt.load_weights_folder))
 
         filenames = readlines(os.path.join(splits_dir, opt.eval_split, "test_files.txt"))
-        encoder_path = os.path.join(opt.load_weights_folder, "encoder.pth")
-        decoder_path = os.path.join(opt.load_weights_folder, "depth.pth")
+        encoder_path = os.path.join(opt.load_weights_folder, "encoder_74400.pth")
+        decoder_path = os.path.join(opt.load_weights_folder, "depth_74400.pth")
+
         encoder_dict = torch.load(encoder_path)
         dataset = datasets.KITTIRAWDataset(opt.data_path, None,None,None,filenames,
                                            encoder_dict['height'], encoder_dict['width'],
                                            [0], 4, is_train=False)
         dataloader = DataLoader(dataset, 16, shuffle=False, num_workers=opt.num_workers,
                                 pin_memory=True, drop_last=False)
+
         encoder = networks.ResnetEncoder(opt.num_layers, False)
         depth_decoder = networks.DepthDecoder(encoder.num_ch_enc)
 
