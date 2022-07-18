@@ -16,7 +16,11 @@ The KITTI (raw) dataset used in our experiments can be downloaded from the KITTI
 
 ## Training
 
-## Evaluate
+## KITTI Evaluation
+Firstly, prepare the ground truth depth maps by running:
+~~~
+python export_gt_depth.py --data_path ./kitti_RAW
+~~~
 
 ## Pretrained Models
 We provided pretrained model as follow:
@@ -27,5 +31,6 @@ We provided pretrained model as follow:
 |||||||
 |||||||
 |||||||
+## Precomputed Depth Maps
 
 ## References
