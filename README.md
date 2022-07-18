@@ -38,5 +38,6 @@ We provided pretrained model as follow:
 |||||||
 |||||||
 ## Precomputed Depth Maps
+We also provide pre-computed depth maps for supervised training and evaluation:
 
 ## References
