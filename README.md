@@ -16,5 +16,7 @@ The KITTI (raw) dataset used in our experiments can be downloaded from the KITTI
 
 #Pretrained Models
 We provided pretrained model as follow:
+
 |Model name|Resolution|Train Dataset|supervision|Abs Rel|\delta<1.25|
+|:------|:------|:------|:------|:------|:------|
 
