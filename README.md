@@ -21,7 +21,11 @@ Firstly, prepare the ground truth depth maps by running:
 ~~~
 python export_gt_depth.py --data_path ./kitti_RAW
 ~~~
-
+Then put the pretrained Models in 
+~~~
+python evaluate_depth.py --data_path ./kitti_RAW --load_weights_folder ./models/MUSTNet_K_S_640x192 --MUSTNet
+python evaluate_depth.py --data_path ./kitti_RAW --load_weights_folder ./models/HR_Depth_K_S_1280x384 --MUSTNet
+~~~
 ## Pretrained Models
 We provided pretrained model as follow:
 
