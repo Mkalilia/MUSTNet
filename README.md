@@ -15,7 +15,12 @@ pip install scipy=1.4.1
 The KITTI (raw) dataset used in our experiments can be downloaded from the KITTI website.
 
 ## Training
-
+### One stage Self-supervised manner
+Firstly, you can train our model in an fully self-supervised manner with 
+~~~
+python train.py --training_stage 1 --num_teacher None --set_assistant_teacher False
+~~~
+Then, you can train the model with only one coefficient decoder.
 ## KITTI Evaluation
 Firstly, prepare the ground truth depth maps by running:
 ~~~
