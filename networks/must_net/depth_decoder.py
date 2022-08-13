@@ -136,9 +136,10 @@ class DepthDecoder(nn.Module):
             cat_disp = torch.cat(cat_disp,dim=1)
 
             # for bases diversity constraints
-            mean = torch.mean(torch.mean(cat_disp,dim=-2,keepdim=True),dim=-1,keepdim=True)
+            base_disp = outputs[("disp_s", 0)]
+            mean = torch.mean(torch.mean(base_disp,dim=-2,keepdim=True),dim=-1,keepdim=True)
             var = torch.mean(
-                torch.mean(torch.abs(cat_disp - mean) ** 2, dim=-1, keepdim=True), dim=-2,
+                torch.mean(torch.abs(base_disp - mean) ** 2, dim=-1, keepdim=True), dim=-2,
                 keepdim=True)
             norm_constraint = 1 / (torch.mean(
                                 torch.mean(mean * mean, dim=1, keepdim=True) - (
