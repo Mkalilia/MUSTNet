@@ -1,0 +1,12 @@
+@inproceedings{mustnet2022,
+  author    = {Weisong Ren and
+               Lijun Wang and
+               Yongri Piao and
+               Miao Zhang and
+               Huchuan Lu and
+               Ting Liu},
+  title     = {Adaptive Co-Teaching for Unsupervised Monocular Depth Estimation},
+  booktitle = {ECCV},
+  publisher = {Springer},
+  year      = {2022}
+}
